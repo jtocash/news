@@ -1,0 +1,12 @@
+### GET request to example server
+GET http://localhost:1337
+
+
+###
+POST http://localhost:1337
+Content-Type: application/json
+
+{
+  "name": "tuck",
+  "location": "123 trailer park ave"
+}
