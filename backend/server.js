@@ -63,6 +63,22 @@ app.get('/read', async (req,res) =>
 
 // example queries above
 
+// get the most recently added entry
+app.get('/getnewest', async (req,res) =>
+{
+    try
+    {
+        data =await pool.query('SELECT * FROM news ORDER BY id DESC LIMIT 1')
+
+        res.status(200).send(data.rows)
+    }
+    catch (err)
+    {
+        console.log(err)
+        res.sendStatus(500)
+    }
+})
+
 app.listen(PORT, () =>
 {
     console.log(`Server running on http://localhost:${PORT}`) })

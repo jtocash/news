@@ -7,8 +7,8 @@ POST http://localhost:1337
 Content-Type: application/json
 
 {
-  "name": "tuck",
-  "location": "123 trailer park ave"
+  "name": "test",
+  "location": "123 friend park ave"
 }
 ###
 GET http://localhost:1337/setup
