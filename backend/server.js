@@ -15,10 +15,13 @@ app.get('/api/message', (req, res) => {
 
 app.post('/', async (req, res) =>
 {
-    const {title, body} = req.body
+    const {name, location} = req.body
+    console.log("Received body:", req.body)
+    console.log("title:", name)
+    console.log("body:", location)
     try
     {
-        await pool.query('INSERT INTO news (title,body) VALUES ($1, $2)', [title, body])
+        await pool.query('INSERT INTO news (title,body) VALUES ($1, $2)', [name, location])
         res.status(200).send({message: "added"})
     }
     catch (err)
@@ -57,6 +60,8 @@ app.get('/read', async (req,res) =>
         res.sendStatus(500)
     }
 })
+
+// example queries above
 
 app.listen(PORT, () =>
 {

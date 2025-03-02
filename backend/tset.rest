@@ -1,5 +1,5 @@
 ### GET request to example server
-GET http://localhost:1337
+GET http://localhost:1337/api/message
 
 
 ###
@@ -10,3 +10,8 @@ Content-Type: application/json
   "name": "tuck",
   "location": "123 trailer park ave"
 }
+###
+GET http://localhost:1337/setup
+###
+GET http://localhost:1337/read
+
