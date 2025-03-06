@@ -8,7 +8,6 @@ interface ExpandableTextProps {
 
 export default function ExpandableText({ text, maxLength = 100 }: ExpandableTextProps) {
     const [isExpanded, setIsExpanded] = useState(false);
-    console.log(text)
 
     const toggleExpand = () => setIsExpanded(!isExpanded);
 

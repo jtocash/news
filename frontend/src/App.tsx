@@ -6,6 +6,7 @@ import {nodetest} from "./newsapi.ts";
 import ExpandableText from "./components/Expandabletext.tsx";
 import './App.css'
 import {get5content} from "./newsapi.ts";
+import {refreshnews} from "./newsapi.ts";
 
 
 const newsarray: string[] = await get5content()
@@ -28,7 +29,7 @@ function App() {
         </div>
 
 
-        <button style={{marginTop: "2rem"}}></button>
+        <button onClick={refreshnews} style={{marginTop: "2rem"}}> Refresh News </button>
 
 
 

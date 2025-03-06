@@ -1,17 +1,27 @@
 
-
-
 export const get5content = async () => {
         try {
-            const response = await fetch(`http://localhost:1337/fetchnews3`);
+            const response = await fetch(`http://localhost:1337/getnewest`);
 
             if (!response.ok) {throw new Error("ts failed")}
 
-            const data = await response.json()
-
-            console.log(data)
+            let data = await response.json()
+            data = data.map((response: { body: string; }) => response.body)
             return data
 
+
+        }
+        catch (error) {
+            console.log(error)}
+    }
+;
+
+export const refreshnews = async () => {
+        try {
+            await fetch(`http://localhost:1337/dbclear`);
+            await fetch(`http://localhost:1337/setup`);
+            await fetch(`http://localhost:1337/addnews`);
+            console.log("updated news")
 
         }
         catch (error) {
