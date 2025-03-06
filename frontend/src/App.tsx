@@ -3,15 +3,37 @@
 import {fetchTopNews} from "./newsapi.ts";
 // @ts-ignore
 import {nodetest} from "./newsapi.ts";
-import ExpandableText from "./components/newsarticle.tsx";
+import ExpandableText from "./components/Expandabletext.tsx";
 import './App.css'
+import {get5content} from "./newsapi.ts";
+
+
+const newsarray: string[] = await get5content()
+
+
+
 
 function App() {
 
-  return (
+
+    return (
     <>
-        <p>yews 2</p>
-        <ExpandableText text={"aaaaaaaaaaaaaaa"} maxLength={10}></ExpandableText>
+        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+            <ExpandableText text={newsarray[0]} maxLength={50}> </ExpandableText>
+            <ExpandableText text={newsarray[1]} maxLength={50}> </ExpandableText>
+            <ExpandableText text={newsarray[2]} maxLength={50}> </ExpandableText>
+            <ExpandableText text={newsarray[3]} maxLength={50}> </ExpandableText>
+            <ExpandableText text={newsarray[4]} maxLength={50}> </ExpandableText>
+
+        </div>
+
+
+        <button style={{marginTop: "2rem"}}></button>
+
+
+
+
+
     </>
   );
 }

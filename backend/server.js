@@ -2,12 +2,15 @@ const express = require('express');
 const pool = require('./db');
 const cors = require('cors');
 require('dotenv').config();
+const fetchnewsroutes = require("./fetchnewsdb")
 
 const app = express();
 const PORT = process.env.PORT || 1337;
 
 app.use(cors());
 app.use(express.json());
+app.use(fetchnewsroutes) // brings in the api from the other file
+
 
 app.get('/api/message', (req, res) => {
     res.json({ message: "Hello from Neode.js backend!" });
