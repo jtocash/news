@@ -23,7 +23,7 @@ export const get5url = async () => {
             if (!response.ok) {throw new Error("ts failed")}
 
             let data = await response.json()
-            data = data.map((response: { url: string; }) => response.url)
+            data = data.map((response: { url: string;}) => response.url)
             console.log(data)
             return data
 
@@ -32,6 +32,23 @@ export const get5url = async () => {
         catch (error) {
             console.log(error)}
     };
+
+export const get5title = async () => {
+    try {
+        const response = await fetch(`http://localhost:1337/getnewest`);
+
+        if (!response.ok) {throw new Error("ts failed")}
+
+        let data = await response.json()
+        data = data.map((response: { title: string;}) => response.title)
+        console.log(data)
+        return data
+
+
+    }
+    catch (error) {
+        console.log(error)}
+};
 
 
 

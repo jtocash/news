@@ -18,13 +18,14 @@ app.get('/api/message', (req, res) => {
 
 app.post('/', async (req, res) =>
 {
-    const {url, body} = req.body
-    console.log("Received body:", req.body)
+    const {url,title, body} = req.body
+   // console.log("Received body:", req.body)
     console.log("url:", url)
-    console.log("body:", body)
+    console.log("title:", title)
+    //console.log("body:", body)
     try
     {
-        await pool.query('INSERT INTO news (url,body) VALUES ($1, $2)', [url, body])
+        await pool.query('INSERT INTO news (url,title, body) VALUES ($1, $2, $3)', [url,title,  body])
         res.status(200).send({message: "added"})
     }
     catch (err)
@@ -38,7 +39,7 @@ app.get('/setup', async (req,res) =>
 {
     try
     {
-        await pool.query('CREATE TABLE news(id SERIAL PRIMARY KEY, url VARCHAR(1000), body TEXT)')
+        await pool.query('CREATE TABLE news(id SERIAL PRIMARY KEY, url VARCHAR(1000), title TEXT, body TEXT)')
 
         res.status(200).send({message: "created"})
     }
@@ -88,7 +89,7 @@ app.get('/getnewest', async (req,res) =>
 {
     try
     {
-        data =await pool.query('SELECT * FROM news WHERE body != \'Content extraction failed\' ORDER BY id DESC LIMIT 5')
+        data =await pool.query('SELECT * FROM news WHERE body != \'Content extraction failed\' ORDER BY id DESC LIMIT 15')
 
         res.status(200).send(data.rows)
     }

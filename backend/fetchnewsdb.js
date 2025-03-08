@@ -5,10 +5,16 @@ const API_KEY = "0b3e212a535845d9945e3695aeabd748\n";
 const BASE_URL = "https://newsapi.org/v2/top-headlines";
 const { JSDOM } = require('jsdom');
 const { Readability } = require('@mozilla/readability')
+require('dotenv').config();
+const OpenAI = require("openai");
+const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
+const newsapikey = process.env.NEWS_API_KEY
+
+
 
 router.get('/fetchnews2', async (req, res) => {
         try {
-            const response = await fetch(`https://newsapi.org/v2/top-headlines?country=us&apiKey=0b3e212a535845d9945e3695aeabd748`);
+            const response = await fetch(`https://newsapi.org/v2/top-headlines?country=us&apiKey=${newsapikey}`);
 
             if (!response.ok) {throw new Error("ts failed")}
 
@@ -35,6 +41,7 @@ router.get('/fetchnews3',async (req, res) => {
         const selectedArticles = data.articles.slice(0, 20); // get articles
         const selectedContents = selectedArticles.map(article => ({
             url: article.url,
+            title: article.title,
             content: article.content
         }));
 
@@ -56,17 +63,26 @@ try
 
         const data = {
             url: article.url,
-            body: ""
+            title: article.title,
+            body:""
         };
 
         const bodytext = await extractArticleContent(article.url)
         data.body = bodytext
-        console.log(bodytext)
-
-        if (data.body == null)
+        if (bodytext !== 'Content extraction failed')
         {
-            data.body = "no body"
+            try {
+                let openairesponse = await summarize(bodytext)
+                data.title = openairesponse.title
+                data.body = openairesponse.summary
+            }
+            catch (error)
+            {
+                console.log(error)
+            }
         }
+
+
 
 
 
@@ -101,8 +117,9 @@ async function extractArticleContent(url) {
 
         const html = await response.text(); // Get HTML as text
 
-        const dom = new JSDOM(html, { url });
+        const dom = new JSDOM(html, { url, resources: "usable"  });
         const article = new Readability(dom.window.document).parse();
+        console.log(article?.textContent)
 
         return article?.textContent || "Content extraction failed";
     } catch (error) {
@@ -111,6 +128,21 @@ async function extractArticleContent(url) {
     }
 }
 
+async function summarize(body)
+{
+    const response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        store: true,
+        messages: [
+            { "role": "system", "content": "You are an AI assistant that summarizes news articles and provides unbiased, objective titles." },
+            { "role": "user", "content": "Make a summary of the news article and an unbiased, objective title. Respond in JSON format with keys 'title' and 'summary'." },
+            { "role": "user", "content": body }
+        ],
+        response_format: { type: "json_object" }
+    });
+    const data = JSON.parse(response.choices[0].message.content);
+    return data
+}
 
 
 
