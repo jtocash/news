@@ -38,7 +38,7 @@ app.get('/setup', async (req,res) =>
 {
     try
     {
-        await pool.query('CREATE TABLE news(id SERIAL PRIMARY KEY, url VARCHAR(1000), body VARCHAR(1000))')
+        await pool.query('CREATE TABLE news(id SERIAL PRIMARY KEY, url VARCHAR(1000), body TEXT)')
 
         res.status(200).send({message: "created"})
     }
@@ -64,24 +64,6 @@ app.get('/read', async (req,res) =>
     }
 })
 
-// example queries above
-
-// get the most recently added entry
-app.get('/getnewest', async (req,res) =>
-{
-    try
-    {
-        data =await pool.query('SELECT * FROM news ORDER BY id DESC LIMIT 5')
-
-        res.status(200).send(data.rows)
-    }
-    catch (err)
-    {
-        console.log(err)
-        res.sendStatus(500)
-    }
-})
-
 //clear database
 app.get('/dbclear', async (req,res) =>
 {
@@ -97,6 +79,31 @@ app.get('/dbclear', async (req,res) =>
         res.sendStatus(500)
     }
 })
+
+
+
+
+// get the 5 most recently added entry
+app.get('/getnewest', async (req,res) =>
+{
+    try
+    {
+        data =await pool.query('SELECT * FROM news WHERE body != \'Content extraction failed\' ORDER BY id DESC LIMIT 5')
+
+        res.status(200).send(data.rows)
+    }
+    catch (err)
+    {
+        console.log(err)
+        res.sendStatus(500)
+    }
+})
+
+
+
+
+
+
 app.listen(PORT, () =>
 {
     console.log(`Server running on http://localhost:${PORT}`) })

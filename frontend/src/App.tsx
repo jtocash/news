@@ -1,6 +1,6 @@
 
 // @ts-ignore
-import {fetchTopNews} from "./newsapi.ts";
+import {fetchTopNews, get5url} from "./newsapi.ts";
 // @ts-ignore
 import {nodetest} from "./newsapi.ts";
 import ExpandableText from "./components/Expandabletext.tsx";
@@ -30,6 +30,7 @@ function App() {
 
 
         <button onClick={refreshnews} style={{marginTop: "2rem"}}> Refresh News </button>
+        <button onClick={get5url} style={{marginTop: "2rem"}}> Get Links </button>
 
 
 
