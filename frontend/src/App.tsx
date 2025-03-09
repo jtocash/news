@@ -36,9 +36,8 @@ function App() {
         </div>
 
 
-        <button onClick={addnews} style={{marginTop: "2rem"}}> Add News </button>
-        <button onClick={refreshnews} style={{marginTop: "2rem"}}> Refresh News </button>
-        <button onClick={get5url} style={{marginTop: "2rem"}}> Get Links </button>
+        <button onClick={addnews} style={{marginTop: "2rem"}}> Get News </button>
+
 
 
 
