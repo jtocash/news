@@ -25,7 +25,13 @@ app.post('/', async (req, res) =>
     //console.log("body:", body)
     try
     {
-        await pool.query('INSERT INTO news (url,title, body) VALUES ($1, $2, $3)', [url,title,  body])
+        await pool.query(
+            `INSERT INTO news (url, title, body) 
+     VALUES ($1, $2, $3) 
+     ON CONFLICT (url) 
+     DO UPDATE SET title = EXCLUDED.title, body = EXCLUDED.body`,
+            [url, title, body]
+        );
         res.status(200).send({message: "added"})
     }
     catch (err)
@@ -39,7 +45,7 @@ app.get('/setup', async (req,res) =>
 {
     try
     {
-        await pool.query('CREATE TABLE news(id SERIAL PRIMARY KEY, url VARCHAR(1000), title TEXT, body TEXT)')
+        await pool.query('CREATE TABLE news(id SERIAL PRIMARY KEY, url VARCHAR(1000) UNIQUE, title TEXT, body TEXT)')
 
         res.status(200).send({message: "created"})
     }

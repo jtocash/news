@@ -51,6 +51,29 @@ export const get5title = async () => {
 };
 
 
+export const addnews = async () => {
+        try {
+            await fetch(`http://localhost:1337/addnews`);
+            console.log("updated news")
+
+        }
+        catch (error) {
+            console.log(error)}
+    }
+;
+
+export const resetnews = async () => {
+        try {
+            await fetch(`http://localhost:1337/dbclear`);
+            await fetch(`http://localhost:1337/setup`);
+            await fetch(`http://localhost:1337/addnews`);
+            console.log("updated news")
+
+        }
+        catch (error) {
+            console.log(error)}
+    }
+;
 
 
 export const refreshnews = async () => {
