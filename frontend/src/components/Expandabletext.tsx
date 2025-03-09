@@ -1,36 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface ExpandableTextProps {
     text: string;
     title: string;
-    children: string;
+    children?: string;
 }
+
+
 
 export default function ExpandableText({ title, text }: ExpandableTextProps) {
     const [isExpanded, setIsExpanded] = useState(false);
+    const [titleclass, settitleclass] = useState("");
+    useEffect(() => {
+       if (isExpanded)
+       {
+           settitleclass("bold")
+       }
+       else
+       {
+           settitleclass("")
+       }
+
+    }, [isExpanded]); // Runs whenever 'count' changes
+
 
     const toggleExpand = () => setIsExpanded(!isExpanded);
 
     return (
-        <div
-            className="cursor-pointer text-blue-500 hover:underline"
-            onClick={toggleExpand}
-        >
-            {getDisplayedText(title, text, isExpanded)}
+        <div>
+            <div className={titleclass} onClick={toggleExpand}>
+                {title}
+            </div>
+            {isExpanded && <div style={{marginTop: '1rem'}} className="mt-1">{text}</div>}
         </div>
     );
 }
-
-function getDisplayedText(title: string, text: string, isExpanded: boolean) {
-    if (isExpanded) {
-        return text;
-    }
-
-    else
-    {
-        return title;
-    }
-
-}
-
-

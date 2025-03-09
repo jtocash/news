@@ -6,7 +6,7 @@ import {nodetest} from "./newsapi.ts";
 import ExpandableText from "./components/Expandabletext.tsx";
 import './App.css'
 import {get5content} from "./newsapi.ts";
-import {refreshnews} from "./newsapi.ts";
+// import {refreshnews} from "./newsapi.ts";
 
 
 const bodyarray: string[] = await get5content()
